@@ -20,6 +20,11 @@ async def lifespan(_app: FastAPI) -> AsyncGenerator[None, Any]:
 
 app = FastAPI(lifespan=lifespan)
 
+# Include the home router. This allows the API to respond to requests to the
+# '/' endpoint. In this case, the home router will return a simple message.
 app.include_router(home.router)
+# Include the heartbeat router. This allows the API to respond to requests to
+# the /heartbeat endpoint. This is useful for monitoring the health of the API.
 app.include_router(heartbeat.router)
+# Include the auth router
 app.include_router(auth.router)
