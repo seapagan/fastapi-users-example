@@ -7,7 +7,7 @@ from typing import Any
 from fastapi import FastAPI
 
 from api.db import create_db_and_tables
-from api.routes import auth, heartbeat, home
+from api.routes import api_router
 
 
 @asynccontextmanager
@@ -30,11 +30,5 @@ app = FastAPI(
     version="0.1.0",
 )
 
-# Include the home router. This allows the API to respond to requests to the
-# '/' endpoint. In this case, the home router will return a simple message.
-app.include_router(home.router)
-# Include the heartbeat router. This allows the API to respond to requests to
-# the /heartbeat endpoint. This is useful for monitoring the health of the API.
-app.include_router(heartbeat.router)
-# Include the auth router
-app.include_router(auth.router)
+# import all the routes for this FastAPI application
+app.include_router(api_router)

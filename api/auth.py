@@ -22,11 +22,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.db import get_async_session
 from api.models import Base
-from api.models.user import User
 
 SECRET = "THIS_IS_NOT_A_REAL_SECRET"  # noqa: S105
 
-bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
+bearer_transport = BearerTransport(tokenUrl="auth/login")
 
 
 class AccessToken(SQLAlchemyBaseAccessTokenTableUUID, Base):
@@ -47,11 +46,6 @@ def get_database_strategy(
 ) -> DatabaseStrategy[Any, Any, AccessToken]:
     """Get the database strategy - we store access tokens in the database."""
     return DatabaseStrategy(access_token_db, lifetime_seconds=3600)
-
-
-def get_jwt_strategy() -> JWTStrategy[User, UUID]:
-    """Get the JWT strategy. We don't use this in this project."""
-    return JWTStrategy(secret=SECRET, lifetime_seconds=3600)
 
 
 auth_backend = AuthenticationBackend(
