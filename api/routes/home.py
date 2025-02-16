@@ -15,7 +15,7 @@ router = APIRouter(
 @router.get("/")
 async def read_root() -> dict[str, str]:
     """Currently a placeholder for the root route."""
-    return {"Hello": "World"}
+    return {"Greeting": "Welcome to the FastAPI Auth with 'fastapi-users' API!"}
 
 
 @router.get("/authenticated-route")

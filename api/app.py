@@ -18,7 +18,17 @@ async def lifespan(_app: FastAPI) -> AsyncGenerator[None, Any]:
     yield
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    lifespan=lifespan,
+    swagger_ui_parameters={"defaultModelsExpandDepth": 0},
+    title="FastAPI Auth with 'fastapi-users'",
+    description=(
+        "A simple FastAPI application that demonstrates how to use "
+        "the `fastapi-users` package for authentication."
+    ),
+    license_info={"name": "MIT", "url": "https://opensource.org/licenses/MIT"},
+    version="0.1.0",
+)
 
 # Include the home router. This allows the API to respond to requests to the
 # '/' endpoint. In this case, the home router will return a simple message.
