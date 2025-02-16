@@ -4,15 +4,15 @@ version = "0.1.0"
 description = "Building a full FastAPI app from scratch"
 readme = "README.md"
 requires-python = ">=3.9"
-dependencies = ["fastapi[standard]>=0.115.8"]
+dependencies = [
+    "aiosqlite>=0.21.0",
+    "fastapi-users[sqlalchemy]>=14.0.1",
+    "fastapi[standard]>=0.115.8",
+    "sqlalchemy>=2.0.38",
+]
 
 [dependency-groups]
-dev = [
-    "mypy>=1.15.0",
- "poethepoet>=0.32.2",
- "pre-commit>=4.1.0",
- "ruff>=0.9.6",
-]
+dev = ["mypy>=1.15.0", "poethepoet>=0.32.2", "pre-commit>=4.1.0", "ruff>=0.9.6"]
 
 
 [tool.poe.tasks]
@@ -58,7 +58,7 @@ lint.extend-ignore = [
     "ISC001",
 ] # these are ignored for ruff formatting
 
-src = ["sqliter"]
+src = ["api"]
 target-version = "py39" # minimum python version supported
 
 [tool.ruff.format]
@@ -74,6 +74,14 @@ classmethod-decorators = ["pydantic.validator", "pydantic.root_validator"]
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = [
+    # Whitelisted default arguments
+    "fastapi.Header",
+    "fastapi.Depends",
+    "fastapi.Query",
+]
+
 [tool.ruff.lint.extend-per-file-ignores]
 "tests/**/*.py" = [
     "S101",    # we can (and MUST!) use 'assert' in test files.
@@ -84,7 +92,7 @@ convention = "google"
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["sqliter"]
+known-first-party = ["api"]
 
 [tool.ruff.lint.pyupgrade]
 keep-runtime-typing = true
@@ -115,5 +123,5 @@ mock_use_standalone_module = true
 markers = []
 
 [tool.coverage.run]
-source = ["sqliter"]
+source = ["app"]
 omit = ["*/tests/*"]

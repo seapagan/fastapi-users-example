@@ -1,7 +1,8 @@
 """Main module for the FastAPI application."""
 
-from api.routes import heartbeat, home
 from fastapi import FastAPI
+
+from api.routes import heartbeat, home
 
 app = FastAPI()
 
