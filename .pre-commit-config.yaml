@@ -32,6 +32,7 @@ repos:
         name: "run mypy"
         additional_dependencies:
           - pydantic
+          - fastapi
 
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.

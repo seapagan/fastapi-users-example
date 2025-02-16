@@ -1,9 +1,6 @@
-"""Main module for the FastAPI application."""
+"""Run the FastAPI app using Uvicorn."""
 
-from api.routes import heartbeat, home
-from fastapi import FastAPI
+import uvicorn
 
-app = FastAPI()
-
-app.include_router(home.router)
-app.include_router(heartbeat.router)
+if __name__ == "__main__":
+    uvicorn.run("api.app:app", host="0.0.0.0", log_level="info")  # noqa: S104
