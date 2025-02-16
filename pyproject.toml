@@ -1,13 +1,18 @@
 [project]
-name = "master-code"
+name = "fastapi-zero-to-hero"
 version = "0.1.0"
-description = "Add your description here"
+description = "Building a full FastAPI app from scratch"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = ["fastapi[standard]>=0.115.8"]
 
 [dependency-groups]
-dev = ["mypy>=1.15.0", "poethepoet>=0.32.2", "ruff>=0.9.6"]
+dev = [
+    "mypy>=1.15.0",
+ "poethepoet>=0.32.2",
+ "pre-commit>=4.1.0",
+ "ruff>=0.9.6",
+]
 
 
 [tool.poe.tasks]
