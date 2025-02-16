@@ -1,0 +1,61 @@
+"""Setup up the authentication system for the API."""
+
+from collections.abc import AsyncGenerator
+from typing import Any
+from uuid import UUID
+
+from fastapi import Depends
+from fastapi_users.authentication import (
+    AuthenticationBackend,
+    BearerTransport,
+    JWTStrategy,
+)
+from fastapi_users.authentication.strategy.db import (
+    AccessTokenDatabase,
+    DatabaseStrategy,
+)
+from fastapi_users_db_sqlalchemy.access_token import (
+    SQLAlchemyAccessTokenDatabase,
+    SQLAlchemyBaseAccessTokenTableUUID,
+)
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from api.db import get_async_session
+from api.models import Base
+from api.models.user import User
+
+SECRET = "THIS_IS_NOT_A_REAL_SECRET"  # noqa: S105
+
+bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
+
+
+class AccessToken(SQLAlchemyBaseAccessTokenTableUUID, Base):
+    """Define the access token table."""
+
+
+async def get_access_token_db(
+    session: AsyncSession = Depends(get_async_session),
+) -> AsyncGenerator[SQLAlchemyAccessTokenDatabase[AccessToken], Any]:
+    """Get the access token database."""
+    yield SQLAlchemyAccessTokenDatabase(session, AccessToken)
+
+
+def get_database_strategy(
+    access_token_db: AccessTokenDatabase[AccessToken] = Depends(
+        get_access_token_db
+    ),
+) -> DatabaseStrategy[Any, Any, AccessToken]:
+    """Get the database strategy - we store access tokens in the database."""
+    return DatabaseStrategy(access_token_db, lifetime_seconds=3600)
+
+
+def get_jwt_strategy() -> JWTStrategy[User, UUID]:
+    """Get the JWT strategy."""
+    return JWTStrategy(secret=SECRET, lifetime_seconds=3600)
+
+
+auth_backend = AuthenticationBackend(
+    name="jwt",
+    transport=bearer_transport,
+    get_strategy=get_jwt_strategy,
+)
