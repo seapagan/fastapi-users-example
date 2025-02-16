@@ -371,7 +371,7 @@ wheels = [
 ]
 
 [[package]]
-name = "fastapi-zero-to-hero"
+name = "fastapi-users-example"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

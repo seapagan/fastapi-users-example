@@ -1,5 +1,5 @@
 [project]
-name = "fastapi-zero-to-hero"
+name = "fastapi-users-example"
 version = "0.1.0"
 description = "Building a full FastAPI app from scratch"
 readme = "README.md"
