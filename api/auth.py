@@ -50,12 +50,12 @@ def get_database_strategy(
 
 
 def get_jwt_strategy() -> JWTStrategy[User, UUID]:
-    """Get the JWT strategy."""
+    """Get the JWT strategy. We don't use this in this project."""
     return JWTStrategy(secret=SECRET, lifetime_seconds=3600)
 
 
 auth_backend = AuthenticationBackend(
-    name="jwt",
+    name="db_strategy",
     transport=bearer_transport,
-    get_strategy=get_jwt_strategy,
+    get_strategy=get_database_strategy,
 )
