@@ -1,6 +1,5 @@
 """Setup the User Manager class."""
 
-# ruff: noqa: T201
 import uuid
 from collections.abc import AsyncGenerator
 from typing import Optional
@@ -11,6 +10,7 @@ from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 
 from api.auth import SECRET, auth_backend
 from api.db import get_user_db
+from api.log_config import logger
 from api.models import User
 
 
@@ -24,19 +24,21 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         self, user: User, _request: Optional[Request] = None
     ) -> None:
         """Called after a user has registered."""
-        print(f"User {user.id} has registered.")
+        logger.info(f"User {user.id} has registered.")
 
     async def on_after_forgot_password(
         self, user: User, token: str, _request: Optional[Request] = None
     ) -> None:
         """Called after a user has requested a password reset."""
-        print(f"User {user.id} has forgot their password. Reset token: {token}")
+        logger.info(
+            f"User {user.id} has forgot their password. Reset token: {token}"
+        )
 
     async def on_after_request_verify(
         self, user: User, token: str, _request: Optional[Request] = None
     ) -> None:
         """Called after a user has requested a verification."""
-        print(
+        logger.info(
             f"Verification requested for user {user.id}. "
             f"Verification token: {token}"
         )

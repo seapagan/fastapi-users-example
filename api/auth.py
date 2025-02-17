@@ -2,13 +2,11 @@
 
 from collections.abc import AsyncGenerator
 from typing import Any
-from uuid import UUID
 
 from fastapi import Depends
 from fastapi_users.authentication import (
     AuthenticationBackend,
     BearerTransport,
-    JWTStrategy,
 )
 from fastapi_users.authentication.strategy.db import (
     AccessTokenDatabase,
