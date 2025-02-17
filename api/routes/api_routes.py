@@ -12,7 +12,7 @@ from fastapi import APIRouter
 
 from api.routes import auth, heartbeat, home, users
 
-api_router = APIRouter(prefix="/api/v1")
+api_router = APIRouter()
 
 # Include the home router. This allows the API to respond to requests to the
 # '/' endpoint. In this case, the home router will return a simple message.
